@@ -14,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BeansConfig {
 
-    private final UserDetailsService userDetails;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider AuthProvider = new DaoAuthenticationProvider();
-        AuthProvider.setUserDetailsService(userDetails);
+        AuthProvider.setUserDetailsService(userDetailsService);
         AuthProvider.setPasswordEncoder(PasswordEncoder());
         return AuthProvider;
     }
