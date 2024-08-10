@@ -25,14 +25,14 @@ public class AuthenticationService {
         .email(request.getEmail()).firstname(request.getFirstname())
         .lastname(request.getLastname())
         .password(new BCryptPasswordEncoder().encode(request.getPassword()))
-        .accoundLocked(false).enabled(false)
+        .accountLocked(false).enabled(false)
         .build();
         userRepository.save(user);
     }
 
     private String generateAndSaveActivationToken(UserEntity user){
         var generatedToken = generateToken(6);
-
+        // send Email
         return "";
     }
 

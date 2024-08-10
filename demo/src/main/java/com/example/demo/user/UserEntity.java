@@ -42,7 +42,7 @@ public class UserEntity implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    private boolean accoundLocked;
+    private boolean accountLocked;
     
     private boolean enabled;
     
