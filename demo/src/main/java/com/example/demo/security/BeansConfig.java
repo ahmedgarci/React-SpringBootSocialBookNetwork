@@ -25,7 +25,7 @@ public class BeansConfig {
     }
 
     @Bean
-    private PasswordEncoder PasswordEncoder() {
+    public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

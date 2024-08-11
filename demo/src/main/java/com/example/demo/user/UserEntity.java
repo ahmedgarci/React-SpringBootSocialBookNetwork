@@ -76,7 +76,7 @@ public class UserEntity implements UserDetails {
         return email;
     }
 
-    private String getFullName(){
+    public String getFullName(){
         return firstname + " "+lastname;
     }
     
