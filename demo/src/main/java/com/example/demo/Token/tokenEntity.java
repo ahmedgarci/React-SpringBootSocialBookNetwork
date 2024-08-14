@@ -23,9 +23,9 @@ import lombok.Setter;
 @Entity
 public class tokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     private Integer id;
-    private String Token;
+    private String token;
     
     private LocalDateTime issuedAt;
     private LocalDateTime  expiresAt;
@@ -34,4 +34,5 @@ public class tokenEntity {
     @ManyToOne
     @JoinColumn(name = "userId",nullable = false)    
     private UserEntity user;
+
 }

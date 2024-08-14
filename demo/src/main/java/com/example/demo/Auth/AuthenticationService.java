@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,7 @@ public class AuthenticationService {
     private String generateAndSaveActivationToken(UserEntity user){
         String generatedCode = generateRandomCode(6);
         tokenEntity token = tokenEntity.builder().issuedAt(LocalDateTime.now())
-        .expiresAt(LocalDateTime.now().plusMinutes(15)).Token(generatedCode)
+        .expiresAt(LocalDateTime.now().plusMinutes(15)).token(generatedCode)
         .user(user)
         .build();
         tokenRepository.save(token);        
@@ -93,13 +94,18 @@ public class AuthenticationService {
 }
 
 
-    @Transactional
     public void activateAccount(String code) throws MessagingException {
-        tokenEntity savedToken = tokenRepository.findByToken(code).orElseThrow();
+        tokenEntity savedToken = tokenRepository.findByToken(code)
+        .orElseThrow(()-> new RuntimeException("user not found"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
             sendValidationEmail(savedToken.getUser());
-            throw new Exception("code resent to the same email");
+            throw new RuntimeException("code resent to the same email");
         }
-
+        UserEntity user = userRepository.findById(savedToken.getUser().getId())
+        .orElseThrow(()-> new UsernameNotFoundException("user not found"));
+        user.setEnabled(true);
+        userRepository.save(user);
+        savedToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(savedToken);
     }
 }

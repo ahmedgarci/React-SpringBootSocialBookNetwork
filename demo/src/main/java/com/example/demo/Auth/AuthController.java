@@ -42,7 +42,7 @@ public class AuthController {
     }
     
     @GetMapping("/api/auth/activate_account")
-    public void confirm(@RequestParam String code) {
+    public void confirm(@RequestParam String code) throws MessagingException {
         authService.activateAccount(code);
     }
     
