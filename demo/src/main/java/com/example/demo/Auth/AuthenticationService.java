@@ -2,28 +2,38 @@ package com.example.demo.Auth;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Auth.Requests.AuthenticationRequest;
+import com.example.demo.Auth.Requests.RegistrationRequest;
+import com.example.demo.Auth.Responses.AuthenticationResponse;
 import com.example.demo.Token.TokenRepository;
 import com.example.demo.Token.tokenEntity;
 import com.example.demo.email.emailService;
 import com.example.demo.role.RoleRepository;
+import com.example.demo.security.JwtService;
 import com.example.demo.user.UserEntity;
 import com.example.demo.user.userRepository;
 
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
+    private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final userRepository userRepository;
     private final emailService emailService;
     private final TokenRepository tokenRepository;
+    private final JwtService jwtService;
 
     public void Register(RegistrationRequest request) throws MessagingException{
         var role =  roleRepository.findByName("USER")
@@ -70,6 +80,26 @@ public class AuthenticationService {
     }
 
 
+    public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
+        var authenticate = authenticationManager
+        .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+    
+    var claims = new HashMap<String,Object>();
+    var user = ((UserEntity)authenticate.getPrincipal());
+    claims.put("fullname",user.getFullName());
+    String token = jwtService.generateToken(claims, user);
+    return AuthenticationResponse.builder().jwtToken(token).build();
+
+}
 
 
+    @Transactional
+    public void activateAccount(String code) throws MessagingException {
+        tokenEntity savedToken = tokenRepository.findByToken(code).orElseThrow();
+        if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
+            sendValidationEmail(savedToken.getUser());
+            throw new Exception("code resent to the same email");
+        }
+
+    }
 }

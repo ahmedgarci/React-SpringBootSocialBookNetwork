@@ -37,19 +37,10 @@ public class emailService {
         // creatiion d un email complet
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         // helper va nous aider a manipuler mimeMessage
-        // multipartMode est utilise pour les emails qui contient plusieurs parties
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimeMessage,
                 MimeMessageHelper.MULTIPART_MODE_MIXED, StandardCharsets.UTF_8.name());
-        // definition des variables a utiliser dans la template
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("username", username);
-        properties.put("confirmationUrl", confirmationUrl);
-        properties.put("activation_code", ActivationCode);
-
-        Context context = new Context();
-        context.setVariables(properties);
-
+     
         String text =  String.format(
             "Bonjour %s,\n\nVeuillez cliquer sur le lien suivant pour confirmer votre email : %s\nCode d'activation : %s",
             username, confirmationUrl, ActivationCode);
