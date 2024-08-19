@@ -2,6 +2,8 @@ package com.example.demo.Book;
 
 import com.example.demo.Book.Request.BookRequest;
 import com.example.demo.Book.Response.BookResponse;
+import com.example.demo.Book.Response.BorrowedBookResponse;
+import com.example.demo.History.BookTransactionHistory;
 
 public class BookMapper {
 
@@ -26,6 +28,18 @@ public class BookMapper {
         .owner(book.getOwner().getFullName())
         .build();
     }
+
+    public BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory bookTransactionHistory){
+        return BorrowedBookResponse.builder()
+        .id(bookTransactionHistory.getBook().getId())
+        .title(bookTransactionHistory.getBook().getTitle())
+        .authorName(bookTransactionHistory.getBook().getAuthorName())
+        .isbn(bookTransactionHistory.getBook().getIsbn())
+        .returned(bookTransactionHistory.isReturned())
+        .returnedApproved(bookTransactionHistory.isReturnApproved())
+        .build();
+        }
+
 
 
 }

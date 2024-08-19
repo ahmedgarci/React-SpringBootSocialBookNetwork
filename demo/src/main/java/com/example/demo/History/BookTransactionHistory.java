@@ -1,5 +1,8 @@
 package com.example.demo.History;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.demo.Book.Book;
 import com.example.demo.common.BaseEntity;
 import com.example.demo.user.UserEntity;
@@ -30,4 +33,5 @@ public class BookTransactionHistory extends BaseEntity {
 
     private boolean returned;
     private boolean returnApproved;
+   
 }

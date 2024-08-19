@@ -83,8 +83,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(@Valid AuthenticationRequest request) {
         var authenticate = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-    
+        .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));    
     var claims = new HashMap<String,Object>();
     var user = ((UserEntity)authenticate.getPrincipal());
     claims.put("fullname",user.getFullName());
