@@ -41,7 +41,7 @@ public class Book extends BaseEntity {
 
     private String synopsis;
     private boolean archived;
-    private boolean shareble;
+    private boolean shareable;
     
     @CreatedDate
     @Column(nullable = false , updatable = false)

@@ -1,10 +1,13 @@
 package com.example.demo.Book;
 
+import org.springframework.stereotype.Component;
+
 import com.example.demo.Book.Request.BookRequest;
 import com.example.demo.Book.Response.BookResponse;
 import com.example.demo.Book.Response.BorrowedBookResponse;
 import com.example.demo.History.BookTransactionHistory;
 
+@Component
 public class BookMapper {
 
     public Book toBook(BookRequest request) {

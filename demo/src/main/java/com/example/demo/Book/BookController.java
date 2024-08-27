@@ -64,9 +64,9 @@ public class BookController {
     @RequestParam(name = "page",defaultValue = "0",required = false) int page,
     @RequestParam(name = "size",defaultValue = "10",required = false) int size,
     Authentication connectedUser
-        
         ){
-        return ResponseEntity.ok(bookService.findUserBooks(page,size,connectedUser));
+            return null;
+//        return ResponseEntity.ok(bookService.findUserBooks(page,size,connectedUser));
     }
 
     @GetMapping("/borrowed")
