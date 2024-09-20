@@ -32,13 +32,14 @@ public class BookController {
  
     private final BookService bookService;
 
+    @PostMapping("/save")
     public void SaveBook(
         @Valid
         @RequestBody
         BookRequest request,
         Authentication connectedUser
         ){
-           bookService.Save(request, connectedUser);
+           bookService.save(request, connectedUser);
     }
 
 
@@ -65,8 +66,8 @@ public class BookController {
     @RequestParam(name = "size",defaultValue = "10",required = false) int size,
     Authentication connectedUser
         ){
-            return null;
-//        return ResponseEntity.ok(bookService.findUserBooks(page,size,connectedUser));
+           return null;
+ //      return ResponseEntity.ok(bookService.findUserBooks(page,size,connectedUser));
     }
 
     @GetMapping("/borrowed")
@@ -107,7 +108,7 @@ public class BookController {
     public ResponseEntity<Integer> Borrow_a_Book(
         @PathVariable Integer book_id, Authentication connectedUser
     ) {        
-        return ResponseEntity.ok(bookService.Borrow_a_Book(book_id,connectedUser));
+        return ResponseEntity.ok(bookService.borrowBook(book_id,connectedUser));
     }
 
     @PatchMapping("return/borrowed/{book_id}")
