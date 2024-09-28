@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { NavbarComponent } from "../NavBar/NavbarComponent";
-import { login } from "../../Requests/AuthRequest/AuthRequest";
+import { login } from "../../Services/AuthService/Login";
 
 function AuthPage(){
     const [notRegisteredYet,setNotRegistered]= useState(false);
@@ -8,7 +7,6 @@ function AuthPage(){
 
     return(
       <>
-      <NavbarComponent/>
         <div className="bg-gray-100 flex justify-center items-center min-h-screen">
         <div class="bg-white shadow-md rounded-lg p-8 max-w-md min-h-full">
         <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Welcome to SocialBook</h2>
